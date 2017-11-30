@@ -23,8 +23,8 @@ def train_conv_net(epochs=15, weights_file=MODEL_PATH,
     preds = (probs[:,0] < .5).astype(int)
     y_test = [row['label'] for row in test]
 
-    print 'Mean prediction: {}'.format(np.mean(preds))
-    print classification_report(y_test, preds)
-    print confusion_matrix(y_test, preds)
+    print('Mean prediction: {}'.format(np.mean(preds)))
+    print(classification_report(y_test, preds))
+    print(confusion_matrix(y_test, preds))
 
     cnet.transform.serialize(dictionary_file)

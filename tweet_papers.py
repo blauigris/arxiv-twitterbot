@@ -1,5 +1,5 @@
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+from email import MIMEMultipart
+from email import MIMEText
 import smtplib
 from time import sleep
 
@@ -43,22 +43,22 @@ def tweet_day(dry_run=True, date_to_tweet=None):
 
         if dry_run:
             for t in to_tweet:
-                print t
-                print
+                print(t)
+                print()
 
         elif published_on < most_recent_weekday():
-            print "Don't have any new papers for today, latest are from {}".format(published_on)
+            print("Don't have any new papers for today, latest are from {}".format(published_on))
             return
 
         else:
             in_reply_to = None
             api = get_tweepy_api()
-            print 'Tweeting {} papers published on {}'.format(len(to_tweet), published_on)
+            print('Tweeting {} papers published on {}'.format(len(to_tweet), published_on))
             for t in to_tweet:
                 last_tweet = api.update_status(t, in_reply_to)
                 in_reply_to = last_tweet.id
                 sleep(TIME_BETWEEN_TWEETS)
-            print 'Done'
+            print('Done')
     send_mail(title_tweet[:-1], email_body, 'amaub217@gmail.com')
 
 
@@ -99,7 +99,7 @@ def get_title_tweet(published_date=None):
 def get_latest_without_prediction(df, predictions):
     joined = predictions.set_index('link').join(df.set_index('link'), how='inner')
     max_pub_time = joined.published.max()
-    print 'Tweeting papers from {} on'.format(max_pub_time)
+    print('Tweeting papers from {} on'.format(max_pub_time))
     return df[df.published > max_pub_time].index
 
 
