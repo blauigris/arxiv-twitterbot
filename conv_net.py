@@ -160,7 +160,7 @@ class DocToWordIndices(TransformerMixin):
         doc_tokens = [_get_tokens(doc) for doc in X]
         self.seq_length = self.max_seq_length or max(map(len, doc_tokens))
         token_counts = Counter([t for doc in doc_tokens for t in doc])
-        n_tokens = self.vocab_size or sum(token_counts.itervalues())
+        n_tokens = self.vocab_size or sum(token_counts.values())
         self.token_lookup = {token: i + self.n_special_chars
                              for i, (token, count) in enumerate(token_counts.most_common(n_tokens))}
         return self
