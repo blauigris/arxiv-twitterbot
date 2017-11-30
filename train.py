@@ -28,3 +28,6 @@ def train_conv_net(epochs=15, weights_file=MODEL_PATH,
     print(confusion_matrix(y_test, preds))
 
     cnet.transform.serialize(dictionary_file)
+
+if __name__ == '__main__':
+    train_conv_net()

@@ -18,7 +18,7 @@ def load_arxiv_and_tweets():
     miles_links = pd.read_csv(TWEET_CSV_PATH)
     miles_links['time'] = miles_links.time.apply(pd.Timestamp)
     miles_links['link'] = miles_links['link'].apply(clean_miles_link)
-    df = miles_links.set_index('link').join(arxiv.set_index('link'), how='right')
+    df = miles_links.set_index('link').join(arxiv.set_index('link'), how='right', lsuffix='_left')
 
     df = df.reset_index().groupby('link').apply(group_tweeted_multiple).reset_index(drop=True)
     df = df.assign(tweeted=(~df.time.isnull()).astype(int))
