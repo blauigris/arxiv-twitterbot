@@ -2,7 +2,7 @@ from collections import Counter
 import json
 
 from funcy import pluck
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, TensorBoard
 from keras.models import Model, Sequential
 from keras.layers import (Activation, Conv1D, Dense, Dropout, Embedding,
                           Flatten, Input, MaxPooling1D, concatenate)
@@ -91,13 +91,14 @@ class ConvNet(object):
 
         weights = class_weight.compute_class_weight('balanced', np.unique(self.train_labels),
                                                     self.train_labels)
+        tensorboard = TensorBoard()
         weights[1] = weights[1] * 5
         # Fit the model
         self.model.fit(self.x_train, self.y_train,
                        batch_size=batch_size,
                        epochs=epochs,
                        class_weight=None if not self.balance_classes else weights,
-                       callbacks=[checkpoint] if save_best_model_to_filepath is not None else [],
+                       callbacks=[checkpoint, tensorboard] if save_best_model_to_filepath is not None else [tensorboard],
                        validation_data=[self.x_test, self.y_test])
         if save_best_model_to_filepath:
             self.model = load_model(save_best_model_to_filepath)
